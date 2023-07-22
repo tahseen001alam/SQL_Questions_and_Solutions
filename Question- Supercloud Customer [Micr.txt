@@ -1,0 +1,14 @@
+Question- Supercloud Customer [Microsoft SQL Interview Question]
+
+Q) A Microsoft Azure Supercloud customer is a company which buys at least 1 product from each product category.
+
+Write a query to report the company ID which is a Supercloud customer.
+
+
+solutions-
+
+with cte as (SELECT customer_id,count(DISTINCT(product_category)), rank() 
+over(partition by customer_id order by customer_id) as rank1
+FROM customer_contracts cc left join products pt on
+cc.product_id=pt.product_id group by customer_id)
+select customer_id from cte where count=3;
